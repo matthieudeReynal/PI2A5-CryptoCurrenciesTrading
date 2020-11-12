@@ -9,7 +9,7 @@ connect_str = "dbname='tradebotv4' user='tradebotv4' host='localhost' password='
 
 exchanges = ['binance']
 pairs = ['LEND/USDT', 'LRC/USDT', 'SNX/USDT', 'KNC/USDT', 'BNT/USDT', 'REN/USDT', 'ENJ/USDT', 'ETH/USDT']
-durations = ['1h']
+durations = ['1d']
 
 for exchange in exchanges:
 	for pair in pairs:
