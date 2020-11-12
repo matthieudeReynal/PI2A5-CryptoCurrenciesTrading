@@ -31,5 +31,6 @@ def dataToDico(pairs=pairs, durations=durations, exchanges=exchanges):
         print('****************************************')
         print(dico)
     conn.close()
+    return dico
 
 dataToDico()
