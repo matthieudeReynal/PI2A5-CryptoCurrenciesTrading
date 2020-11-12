@@ -6,14 +6,14 @@ def moment(data,taille_rolling_window):
     mom_roll_wind={}
     for monnaie,L_price in data.items():
         for i in range(len(L_price)-taille_rolling_window):
-            mom_roll_wind[monnaie][j]=(data[monnaie][i+taille_rolling_window]/data[monnaie][i])-1
+            mom_roll_wind[monnaie][i]=L_price[i+taille_rolling_window]/L_price[i])-1
     return(mom_roll_wind)
 
 def rendement(data):
-    rendement=data[[]]
-    for i in range(len(data)):
-        for j in range(len(data[0])):
-            rendement[i][j]=(data[i+1,j]/data[i][j])-1
+    rendement={}
+    for monnaie,L_price in data.items():
+        for i in range(len(L_price)):
+            rendement[monnaie][i]=(L_price[i+1]/L_price[i])-1
     return(rendement)
 
 def contribution_matrice(mom_data,rendement_data,prct_top,prct_flop,prct_rw):
