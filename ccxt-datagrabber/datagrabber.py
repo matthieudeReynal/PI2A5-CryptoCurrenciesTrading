@@ -65,10 +65,13 @@ def refreshDataCandle(connect_str, exchange, trading_pair = 'BTCUSD', duration =
 		print("new call!")
 		time.sleep (exchangeObject.rateLimit / 1000) # time.sleep wants seconds
 		candleResults = exchangeObject.fetchOHLCV(trading_pair, duration, sinceWhen)
+		if candleResults == []:
+			break
 		for candle in candleResults:
+			
 			# Updating sinceWhen
 			sinceWhen = candle[0] + 1
-
+			
 			# Checkinf if we deal with current candle
 			if sinceWhen > maxCandle:
 				continue
