@@ -118,3 +118,11 @@ def beta_computing_function_bis(rendement_data , index_data, V_Rmom,int_rw):
         beta_data[j][0]=beta_hat[0]
         beta_data[j][1]=beta_hat[1]
     return(beta_data)
+
+#La fonction différence_beta, permet seulement de calculer la différence entre le Beta i et les b1i.
+
+def difference_beta(v_beta,v_beta_bis):
+    v_diff=[]
+    for i in range(len(v_beta)):
+        v_diff[i]=abs(v_beta[i]-v_beta_bis[i][0])
+    return(v_diff)
