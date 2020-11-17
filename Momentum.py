@@ -101,10 +101,20 @@ def beta_computing_function(rendement_data , index_data):
     #La première valeur du vecteur V_Rmom correspond à la "rw"ème journée (ex: rw = 252), hors, les premières valeurs de rendements que nous avons
     #correspondent à la 2ème journée. Il est donc important de penser à déplacer notre fenêtre de travail de "rw - 1" valeurs (ex: 251), lorsque nous
     #utiliserons tableaux de rendements: rendement_firms, et rendement_index
-def beta_computing_function(rendement_data , index_data, V_Rmom,int_rw):
+def beta_computing_function_bis(rendement_data , index_data, V_Rmom,int_rw):
     v_rm_rmom=[]
     beta_data=[[]]
+    x=np.array([])
+    y=np.array([])
+    rendement_temp=[]
     for j in range(len(rendement_data[0])):
         for i in range(len(rendement_data)):    
             rendement_temp[i]=rendement_data[i + int_rw - 1][j]
-        
+        y=np.array(rendement_temp)
+        x=np.array(index_data,V_Rmom)
+        X = X.T  # transpose so input vectors are along the rows
+        X = np.c_[X, np.ones(X.shape[0])]  # add bias term
+        beta_hat = np.linalg.lstsq(X, y, rcond=None)[0]
+        beta_data[j][0]=beta_hat[0]
+        beta_data[j][1]=beta_hat[1]
+    return(beta_data)
