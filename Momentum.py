@@ -76,10 +76,7 @@ def Rmom(contr_mat):
 #On cherche maintanant a calculer les betas
 
 #beta_computing_function prends en paramètre les tableaux de rendements des conversion ainsi que celui des indice(a voir)
-#, et retourne un vecteur de taille 28 comportant tous les betas.
-#Dans cette fonction, on utilise la fonction LinEst, qui prends en arguments des vecteurs, il sera donc nécessaire d'extraire
-#des vecteurs temporaires du tableau de rendements des entreprises,a afin de pouvoir utiliser la fonction LinEst sur chacun
-#d'entre eux.
+#, et retourne un vecteur comportant tous les betas.
 
 def beta_computing_function(rendement_data , index_data):
     rendement_temp=[]
@@ -90,9 +87,24 @@ def beta_computing_function(rendement_data , index_data):
     for j in range(len(rendement_data[0])):
         for i in range(len(rendement_data)):
             rendement_temp[i]=rendement_data[i][j]
-        x=np.array(rendement_temp)
-        y=np.array(index_data)
+        y=np.array(rendement_temp)
+        x=np.array(index_data)
         x = x[:,np.newaxis]
         a, _, _, _ = np.linalg.lstsq(x, y)
         beta_data[j]=a
     return(beta_data)
+
+
+#La fonction beta_computing_function_bis reprends le même principe que la fonction beta_computing_function de la question 2 à
+#la différence qu'ici nous avons 2 betas à calculer.
+#Remarque Importante:
+    #La première valeur du vecteur V_Rmom correspond à la "rw"ème journée (ex: rw = 252), hors, les premières valeurs de rendements que nous avons
+    #correspondent à la 2ème journée. Il est donc important de penser à déplacer notre fenêtre de travail de "rw - 1" valeurs (ex: 251), lorsque nous
+    #utiliserons tableaux de rendements: rendement_firms, et rendement_index
+def beta_computing_function(rendement_data , index_data, V_Rmom,int_rw):
+    v_rm_rmom=[]
+    beta_data=[[]]
+    for j in range(len(rendement_data[0])):
+        for i in range(len(rendement_data)):    
+            rendement_temp[i]=rendement_data[i + int_rw - 1][j]
+        
