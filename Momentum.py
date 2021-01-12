@@ -112,7 +112,7 @@ def beta_computing_function_bis(rendement_data , index_data, V_Rmom,int_rw):
             rendement_temp[i]=rendement_data[i + int_rw - 1][j]
         y=np.array(rendement_temp)
         x=np.array(index_data,V_Rmom)
-        X = X.T  # transpose so input vectors are along the rows
+        X = x.T  # transpose so input vectors are along the rows
         X = np.c_[X, np.ones(X.shape[0])]  # add bias term
         beta_hat = np.linalg.lstsq(X, y, rcond=None)[0]
         beta_data[j][0]=beta_hat[0]
@@ -126,3 +126,56 @@ def difference_beta(v_beta,v_beta_bis):
     for i in range(len(v_beta)):
         v_diff[i]=abs(v_beta[i]-v_beta_bis[i][0])
     return(v_diff)
+
+#La fonction beta_computing_function_tierce reprends le même principe que les précédentes fonctions beta_computing_function
+#la différence qu'ici nous donnons en paramètre la colonne des rendements correspondant à une unique entreprise. 
+def beta_computing_function_bis(rendement_data , index_data, V_Rmom,int_rw):
+    v_rm_rmom=[]
+    beta_data=[[]]
+    x=np.array([])
+    y=np.array([])
+    rendement_temp=[]
+    for j in range(len(rendement_data[0])-int_rw-200+1):
+        for i in range(200):    
+            rendement_temp[i]=rendement_data[j + i + int_rw - 1-1][j]
+        y=np.array(rendement_temp)
+        x=np.array(index_data,V_Rmom)
+        X = x.T  # transpose so input vectors are along the rows
+        X = np.c_[X, np.ones(X.shape[0])]  # add bias term
+        beta_hat = np.linalg.lstsq(X, y, rcond=None)[0]
+        beta_data[j][0]=beta_hat[0]
+        beta_data[j][1]=beta_hat[1]
+    return(beta_data)
+
+#Cette fonction suit le principe des autres fonctions "beta_computing...", ici elle calcule les betas de toutes les entreprises
+#en utilisant les 3 facteurs.
+
+def beta_computing_function_3_betas(index_data,rendement_data,V_Rmom,V_Rcréé,int_rw,int_rw_2):
+    #La première valeur du vecteur vext_Rmom correspond à la "rw"ème journée (ex: rw = 252), hors, les premières valeurs de rendements que nous avons
+    #correspondent à la 2ème journée. Il est donc important de penser à déplacer notre fenêtre de travail de "rw - 1" valeurs (ex: 251), lorsque nous
+    #utiliserons tableaux de rendements: rendement_data, et index_data. Il faut faire de même pour vect_RCréé.
+    v_rmom_rcréé=[[],[],[]]
+    rendement_temp=[]
+    beta_data=[[]]
+    x=np.array([])
+    y=np.array([])
+    for i in range(len(V_Rmom)):
+        v_rmom_rcréé[0].append(index_data[i+int_rw-1])
+        v_rmom_rcréé[1].append(V_Rmom[i])
+        v_rmom_rcréé[2].append(V_Rcréé[i+int_rw-int_rw_2])
+    
+    for j in range(len(rendement_data)):
+        for i in range(len(V_Rmom)):
+            rendement_temp[i]=rendement_data[i+int_rw-1]
+        y=np.array(rendement_temp)
+        x=np.array(index_data,V_rmom_rcréé)
+        X = x.T  # transpose so input vectors are along the rows
+        X = np.c_[X, np.ones(X.shape[0])]  # add bias term
+        beta_hat = np.linalg.lstsq(X, y, rcond=None)[0]
+        beta_data[j][0]=beta_hat[0]
+        beta_data[j][1]=beta_hat[1]
+        beta_data[j][2]=beta_hat[2]
+    return(beta_data)
+
+
+
