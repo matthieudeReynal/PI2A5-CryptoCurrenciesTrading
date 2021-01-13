@@ -80,7 +80,38 @@ def oneAssetToDF(pairs=pairs, durations=durations, exchanges=exchanges):
     df = pd.DataFrame(data = d)
     #df = pd.DataFrame(np.array([dates, highs, lows, closes]), columns = ['dates', 'highs', 'lows', 'closes'])
     return df
-
+def oneAssetToDFalex(pairs=pairs, durations=durations, exchanges=exchanges):
+    conn = psycopg2.connect(connect_str)
+    cursor = conn.cursor()
+    dbName = api.getCandleTableName('binance',pairs,'3m')
+    statement = "SELECT high, low, close, date FROM " + dbName+ " ORDER BY date ASC"
+    cursor.execute(statement)
+    data = cursor.fetchall()
+    index=0
+    highs =[]
+    lows = []
+    closes = []
+    dates = []
+    for row in data:
+        highs.append(row[0])
+        lows.append(row[1])
+        closes.append(row[2])
+        dates.append(row[3])
+    result = []
+    for row in data: 
+        tmp=False
+        if (index-1>=len(close) ):
+            if (close[index]<close[index+1]):
+                tmp=True
+        else :
+             tmp=False
+        result.append(tmp)
+        index=index +1
+      
+    d = {'date': dates, 'high': highs, 'low':lows, 'close': closes, 'result': result}
+    df = pd.DataFrame(data = d)
+    #df = pd.DataFrame(np.array([dates, highs, lows, closes]), columns = ['dates', 'highs', 'lows', 'closes'])
+    return df
 
 #dataToDico()
 '''
