@@ -100,8 +100,8 @@ def oneAssetToDFalex(pairs=pairs, durations=durations, exchanges=exchanges):
     result = []
     for row in data: 
         tmp=False
-        if (index-1>=len(close) ):
-            if (close[index]<close[index+1]):
+        if (index-1>=len(closes) ):
+            if (closes[index]<closes[index+1]):
                 tmp=True
         else :
              tmp=False
