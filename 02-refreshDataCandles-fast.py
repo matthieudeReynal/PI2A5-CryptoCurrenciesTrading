@@ -8,7 +8,8 @@ connect_str = "dbname='tradebotv4' user='tradebotv4' host='localhost' password='
 # api.cleanDb(connect_str)
 
 exchanges = ['binance']
-pairs = ['LEND/USDT', 'LRC/USDT', 'SNX/USDT', 'KNC/USDT', 'BNT/USDT', 'REN/USDT', 'ENJ/USDT', 'ETH/USDT']
+pairs = ['LRC/USDT', 'SNX/USDT', 'KNC/USDT', 'BNT/USDT', 'REN/USDT', 'ENJ/USDT', 'ETH/USDT']
+#pairs = ["LRC/USDT", "ENJ/USDT"]
 durations = ['3m']
 
 for exchange in exchanges:

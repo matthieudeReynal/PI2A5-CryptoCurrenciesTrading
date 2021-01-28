@@ -59,10 +59,10 @@ def refreshDataCandle(connect_str, exchange, trading_pair = 'BTCUSD', duration =
 
 	# Defining what is the max candle we want. We do NOT want the current candle.
 	maxCandle = int(time.time())*1000 - getTimeframeInMilliSeconds(duration)
-	print(maxCandle)
+	#print(maxCandle)
 
 	while sinceWhen < maxCandle:
-		print("new call!")
+		#print("new call!")
 		time.sleep (exchangeObject.rateLimit / 1000) # time.sleep wants seconds
 		candleResults = exchangeObject.fetchOHLCV(trading_pair, duration, sinceWhen)
 		if candleResults == []:
@@ -78,8 +78,8 @@ def refreshDataCandle(connect_str, exchange, trading_pair = 'BTCUSD', duration =
 
 			# Insert candle in db
 			insertStatement = """INSERT INTO %s (date, open, high, low, close, volume) VALUES(%s, %s, %s, %s, %s, %s)""" % (getCandleTableName(exchange, trading_pair, duration), candle[0], candle[1], candle[2], candle[3], candle[4], candle[5] )
-			print(candle)
-			print(insertStatement)
+			#print(candle)
+			#print(insertStatement)
 			cursor.execute(insertStatement)
 	# Update Sincewhen
 	cursor.execute("""UPDATE last_checks SET last_check=%s, last_id=%s WHERE id = %s""", (maxCandle, 0, lastCheckTuple[0]))
