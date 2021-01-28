@@ -14,10 +14,10 @@ import numpy as np
 connect_str = "dbname='tradebotv4' user='tradebotv4' host='localhost' password='a-password'"
 
 exchanges = ['binance']
-pairs = ['LEND/USDT', 'LRC/USDT', 'SNX/USDT', 'KNC/USDT', 'BNT/USDT', 'REN/USDT', 'ENJ/USDT', 'ETH/USDT']
+pairs = ['LRC/USDT', 'SNX/USDT', 'KNC/USDT', 'BNT/USDT', 'REN/USDT', 'ENJ/USDT', 'ETH/USDT']
 durations = ['3m']
 #pairs=['LEND/USDT']
-def dataToDico(pairs=pairs, durations=durations, exchanges=exchanges):
+def dataToDico(pairs, durations=durations, exchanges=exchanges):
     conn = psycopg2.connect(connect_str)
     cursor = conn.cursor()
     dico = {}
@@ -32,7 +32,7 @@ def dataToDico(pairs=pairs, durations=durations, exchanges=exchanges):
         cursor.execute(statement)
         lows = cursor.fetchall()
         lows = [item[0] for item in lows]
-        print(type(highs))
+        #print(type(highs))
         statement = "SELECT close, date FROM " + dbName+ " ORDER BY date ASC"
         cursor.execute(statement)
         rows = cursor.fetchall()
@@ -100,8 +100,10 @@ def oneAssetToDFalex(pairs=pairs, durations=durations, exchanges=exchanges):
     result = []
     for row in data: 
         tmp=False
+
         if (index-1>=len(closes) ):
             if (closes[index]<closes[index+1]):
+
                 tmp=True
         else :
              tmp=False
